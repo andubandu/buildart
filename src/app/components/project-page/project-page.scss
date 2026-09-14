@@ -7,10 +7,10 @@
   --acc-35: rgba(var(--accent-rgb, 143, 199, 185), 0.35);
   --acc-45: rgba(var(--accent-rgb, 143, 199, 185), 0.45);
   --acc-55: rgba(var(--accent-rgb, 143, 199, 185), 0.55);
-  --ink-02: var(--ink-02);
-  --ink-15: var(--ink-15);
-  --ink-18: var(--ink-18);
-  --ink-10: var(--ink-10);
+  --ink-02: rgba(var(--ink-rgb, 0, 0, 0), 0.02);
+  --ink-15: rgba(var(--ink-rgb, 0, 0, 0), 0.15);
+  --ink-18: rgba(var(--ink-rgb, 241, 235, 220), 0.18);
+  --ink-10: rgba(var(--ink-rgb, 241, 235, 220), 0.1);
 }
 
 // Global tokens local to component transitions
