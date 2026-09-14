@@ -1,0 +1,58 @@
+[
+    {
+    "id": 1,
+    "name": "მირიან მეფის ქუჩა #44 / MIRIAN MEPE STREET #44",
+    "subtitle": "მირიან მეფის ქუჩა #44 დასრულებული და ექსპლუატაციაში მიღებული პროექტი, ყველა ბინა გაყიდულია",
+    "location": "დიღომი, თბილისი",
+    "status": "completed",
+    "year": 2027,
+    "apartments": 42,
+    "floors": 6,
+    "image": "/pictures/mirian-mepe/morning_render.png",
+    "other_images": [
+      "/pictures/mirian-mepe/50.2.jpg",
+      "/pictures/mirian-mepe/51.0 TRANSPARENT.png",
+      "/pictures/mirian-mepe/55.0.jpg",
+      "/pictures/mirian-mepe/72.7.jpg",
+      "/pictures/mirian-mepe/72.7 TRANSPARENT.png",
+      "/pictures/mirian-mepe/73.8 TRANSPARENT.png"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "ნესტან-დარეჯანის #6 / NESTAN-DAREJANI #6",
+    "subtitle": "ნესტან-დარეჯანის #6 დასრულებული და ექსპლუატაციაში მიღებული კორპუსი, ყველა ბინა გაყიდულია",
+    "location": "დიღომი, თბილისი",
+    "status": "completed",
+    "year": 2027,
+    "apartments": 42,
+    "floors": 6,
+    "image": "/pictures/nestan-darejan/morning_render.jpg",
+    "other_images": [
+      "/pictures/nestan-darejan/night_render.jpg",
+      "/pictures/nestan-darejan/44,6 ბინა ნესტან დარეჯანი.jpg",
+      "/pictures/nestan-darejan/58,5 ბინა ნესტან დარეჯანი.gif",
+      "/pictures/nestan-darejan/64,2 ბინა ნესტან დარეჯანი.jpg",
+      "/pictures/nestan-darejan/65,7 ბინა ნესტან დარეჯანი.jpg",
+      "/pictures/nestan-darejan/69,4 ბინა ნესტან დარეჯანი.jpg"
+    ]
+  },
+   {
+    "id": 3,
+    "name": "ნ.ჟვანიას #43 / N.JVANIA #43",
+    "subtitle": "ნ. ჟვანიას ქ.#43 დასრულებული და ექსპლუატაციაში მიღებული კორპუსი, ყველა ბინა გაყიდულია",
+    "location": "ვაკე, თბილისი",
+    "status": "completed",
+    "year": 2026,
+    "apartments": 41,
+    "floors": 6,
+    "image": "/pictures/jvania/ჟვანია morning.jpg",
+    "other_images": [
+      "/pictures/jvania/2 ფასადი (2).jpg",
+      "/pictures/jvania/ნინო ჟვანიას 43 - Copy.jpg",
+      "/pictures/jvania/ჟვანია (1) - Copy.jpg",
+      "/pictures/jvania/ჟვანია (2).jpg",
+      "/pictures/jvania/ჟვანია (3) - Copy.jpg"
+    ]
+  }
+]

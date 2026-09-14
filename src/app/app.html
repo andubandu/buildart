@@ -1,0 +1,10 @@
+<app-side-rail (openMenu)="menuOpen.set(true)" />
+
+<app-menu-overlay
+  [open]="menuOpen()"
+  [projects]="projects()"
+  (close)="menuOpen.set(false)"
+  (select)="goToProject($event)"
+/>
+
+<router-outlet />

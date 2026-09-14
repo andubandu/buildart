@@ -1,0 +1,56 @@
+<div class="stage">
+  <main #deck id="deck" class="deck">
+    <section class="intro">
+      <div class="intro__inner">
+        <p class="intro__eyebrow">Property development · Tbilisi, Georgia</p>
+        <h1 class="intro__wordmark">Build<span>art</span></h1>
+        <p class="intro__lede">
+          We build the best projects — good views off the balcony, well-organized
+          apartments, and everything you'd want from a home.
+        </p>
+        <p class="intro__hint">Scroll to explore <span aria-hidden="true">→</span></p>
+      </div>
+    </section>
+
+    @for (project of projects(); track project.id; let i = $index) {
+      <a
+        class="panel-link"
+        [routerLink]="['/project', project.id]"
+        [attr.aria-label]="project.name + (project.subtitle ? ' — ' + project.subtitle : '')"
+      >
+        <app-project-panel [id]="'panel-' + project.id" [project]="project" [index]="i + 1" />
+      </a>
+    }
+
+    <section class="outro">
+      <div class="outro__inner">
+        <h2>ვაშენებთ,<br />თქვენი კომფორტისთვის</h2>
+        <a
+          class="outro__btn"
+          href="mailto:buildart.office@gmail.com?subject=Inquiry%20-%20Buildart%20Viewing"
+        >
+          Book a viewing
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <div
+    #scrollbar
+    class="scrollbar"
+    role="scrollbar"
+    aria-controls="deck"
+    aria-orientation="horizontal"
+    aria-label="Horizontal project gallery scrollbar"
+    [attr.aria-valuenow]="thumbLeft()"
+    aria-valuemin="0"
+    [attr.aria-valuemax]="100 - thumbWidth()"
+    tabindex="0"
+  >
+    <span
+      class="scrollbar__thumb"
+      [style.width.%]="thumbWidth()"
+      [style.left.%]="thumbLeft()"
+    ></span>
+  </div>
+</div>

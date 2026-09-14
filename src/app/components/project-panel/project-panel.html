@@ -1,0 +1,30 @@
+ <figure class="panel" [class.is-loaded]="loaded()">
+      <img
+        class="panel__img"
+        [src]="project().image"
+        [alt]="project().name + ' — Architectural render'"
+        loading="lazy"
+        (load)="loaded.set(true)"
+      />
+      <span class="panel__index">{{ paddedIndex() }}</span>
+
+      <figcaption class="panel__caption">
+        <span class="panel__status" [attr.data-status]="project().status">
+          {{ statusLabel() }}
+        </span>
+        <h2 class="panel__name">{{ project().name }}</h2>
+        @if (project().subtitle) {
+          <p class="panel__subtitle">{{ project().subtitle }}</p>
+        }
+        <div class="panel__meta">
+          <span>{{ project().location }}</span>
+          @if (project().apartments) {
+            <span>{{ project().apartments }} apartments</span>
+          }
+          @if (project().year) {
+            <span>{{ project().year }}</span>
+          }
+        </div>
+        <span class="panel__cta">View project</span>
+      </figcaption>
+    </figure>
