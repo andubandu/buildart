@@ -9,6 +9,8 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { TranslationService } from '../../services/translation.service';
 
 import { ProjectPanel } from '../project-panel/project-panel';
 import { ProjectsService } from '../../services/projects.service';
@@ -16,13 +18,22 @@ import { Project } from '../../models/project';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, ProjectPanel],
+  imports: [RouterLink, ProjectPanel, TranslatePipe],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
 export class HomePage {
+  protected readonly translationService = inject(TranslationService);
   private readonly projectsService = inject(ProjectsService);
   private readonly destroyRef = inject(DestroyRef);
+
+  protected getProjectSubtitle(project: Project): string | undefined {
+    const lang = this.translationService.currentLanguage();
+    if (lang === 'EN') {
+      return project.subtitle_en || project.subtitle;
+    }
+    return project.subtitle;
+  }
 
   private readonly deck = viewChild.required<ElementRef<HTMLElement>>('deck');
   private readonly scrollbar = viewChild.required<ElementRef<HTMLElement>>('scrollbar');
@@ -58,18 +69,15 @@ export class HomePage {
       });
     };
 
-    // ResizeObserver ensures metrics are refreshed when projects.json loads into DOM
     const resizeObserver = new ResizeObserver(() => syncThumb());
     resizeObserver.observe(el);
 
-    // Normalise a wheel delta to pixels: some browsers report lines/pages.
     const toPixels = (value: number, mode: number): number => {
-      if (mode === 1) return value * 32; // lines -> px
-      if (mode === 2) return value * el.clientWidth; // pages -> px
+      if (mode === 1) return value * 32;
+      if (mode === 2) return value * el.clientWidth;
       return value;
     };
 
-    // Vertical wheel and horizontal trackpad drive the deck sideways across the viewport.
     const onWheel = (event: WheelEvent) => {
       const target = event.target as HTMLElement;
       if (target.closest('.menu.is-open')) return;
@@ -84,7 +92,6 @@ export class HomePage {
     };
     window.addEventListener('wheel', onWheel, { passive: false });
 
-    // Desktop mouse drag-to-scroll
     let isMouseDown = false;
     let startX = 0;
     let startScrollLeft = 0;
@@ -131,7 +138,6 @@ export class HomePage {
     window.addEventListener('pointercancel', onPointerUp);
     el.addEventListener('click', onClickCapture, { capture: true });
 
-    // Draggable custom scrollbar: click to jump, grab to scrub.
     let scrubbing = false;
     const scrubTo = (clientX: number) => {
       const rect = bar.getBoundingClientRect();

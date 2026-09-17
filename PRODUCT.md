@@ -31,7 +31,7 @@ A boutique, high-craft real estate developer emphasizing thoughtful layouts, bal
 ## Brand Commitments
 - Name: Buildart ("BUILDART").
 - Tone of voice: Confident, refined, understated, architectural, grounded. Not loud, boastful, or generic real estate hype.
-- Brand motto / copy commitment: "We build the best projects — good views off the balcony, well-organized apartments, and everything you'd want from a home." / "Let's build something worth living in." / "ვაშენებთ, თქვენი კომფორტისთვის"
+- Brand motto / copy commitment: "We build the best projects — for your comfort." / "Let's build something worth living in." / "ვაშენებთ, თქვენი კომფორტისთვის"
 - Visual truth: Clean architectural presentation; let project renders and authentic floor plan drawings speak for the quality.
 
 ## Evidence on Hand

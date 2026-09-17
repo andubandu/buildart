@@ -2,6 +2,7 @@ export interface Project {
   id: number;
   name: string;
   subtitle?: string;
+  subtitle_en?: string;
   location: string;
   status: 'completed' | 'in_progress' | 'planned';
   year?: number;
@@ -13,7 +14,7 @@ export interface Project {
 }
 
 export const STATUS_LABEL: Record<string, string> = {
-  completed: 'დასრულებული',
-  in_progress: 'მიმდინარე',
-  planned: 'დაგეგმილი',
+  completed: 'დასრულებული / COMPLETE',
+  in_progress: 'მიმდინარე / IN PROGRESS',
+  planned: 'დაგეგმილი / PLANNED',
 };

@@ -2,7 +2,7 @@
       <img
         class="panel__img"
         [src]="project().image"
-        [alt]="project().name + ' — Architectural render'"
+        [alt]="project().name + ' — ' + ('project.render_alt' | translate)"
         loading="lazy"
         (load)="loaded.set(true)"
       />
@@ -13,18 +13,18 @@
           {{ statusLabel() }}
         </span>
         <h2 class="panel__name">{{ project().name }}</h2>
-        @if (project().subtitle) {
-          <p class="panel__subtitle">{{ project().subtitle }}</p>
+        @if (subtitle) {
+          <p class="panel__subtitle">{{ subtitle }}</p>
         }
         <div class="panel__meta">
           <span>{{ project().location }}</span>
           @if (project().apartments) {
-            <span>{{ project().apartments }} apartments</span>
+            <span>{{ project().apartments }} {{ 'project.apartments_unit' | translate }}</span>
           }
           @if (project().year) {
             <span>{{ project().year }}</span>
           }
         </div>
-        <span class="panel__cta">View project</span>
+        <span class="panel__cta">{{ 'project.view_project' | translate }}</span>
       </figcaption>
     </figure>

@@ -1,4 +1,5 @@
-import { Component, output } from '@angular/core';
+import { Component, output, inject } from '@angular/core';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-side-rail',
@@ -41,8 +42,13 @@ import { Component, output } from '@angular/core';
         </a>
       </div>
 
-      <button type="button" class="rail__lang" aria-label="Toggle language (Current: English)">
-        EN
+      <button
+        type="button"
+        class="rail__lang"
+        [attr.aria-label]="'Toggle language (' + translationService.currentLanguage() + ')'"
+        (click)="toggleLanguage()"
+      >
+        {{ translationService.currentLanguage() }}
       </button>
     </aside>
   `,
@@ -50,4 +56,10 @@ import { Component, output } from '@angular/core';
 })
 export class SideRail {
   readonly openMenu = output<void>();
+  protected readonly translationService = inject(TranslationService);
+
+  protected toggleLanguage(): void {
+    const current = this.translationService.currentLanguage();
+    this.translationService.setLanguage(current === 'EN' ? 'GE' : 'EN');
+  }
 }

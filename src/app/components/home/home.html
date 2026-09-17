@@ -1,14 +1,13 @@
-<div class="stage">
+<div class="stage" [class.is-loading]="!translationService.isLoaded()">
   <main #deck id="deck" class="deck">
     <section class="intro">
       <div class="intro__inner">
-        <p class="intro__eyebrow">Property development · Tbilisi, Georgia</p>
+        <p class="intro__eyebrow">{{ 'home.eyebrow' | translate }}</p>
         <h1 class="intro__wordmark">Build<span>art</span></h1>
         <p class="intro__lede">
-          We build the best projects — good views off the balcony, well-organized
-          apartments, and everything you'd want from a home.
+          {{ 'home.lede' | translate }}
         </p>
-        <p class="intro__hint">Scroll to explore <span aria-hidden="true">→</span></p>
+        <p class="intro__hint">{{ 'home.hint' | translate }} <span aria-hidden="true">→</span></p>
       </div>
     </section>
 
@@ -16,7 +15,7 @@
       <a
         class="panel-link"
         [routerLink]="['/project', project.id]"
-        [attr.aria-label]="project.name + (project.subtitle ? ' — ' + project.subtitle : '')"
+        [attr.aria-label]="project.name + (getProjectSubtitle(project) ? ' — ' + getProjectSubtitle(project) : '')"
       >
         <app-project-panel [id]="'panel-' + project.id" [project]="project" [index]="i + 1" />
       </a>
@@ -24,12 +23,12 @@
 
     <section class="outro">
       <div class="outro__inner">
-        <h2>ვაშენებთ,<br />თქვენი კომფორტისთვის</h2>
+        <h2 [innerHTML]="'home.outro_title' | translate"></h2>
         <a
           class="outro__btn"
           href="mailto:buildart.office@gmail.com?subject=Inquiry%20-%20Buildart%20Viewing"
         >
-          Book a viewing
+          {{ 'home.book_viewing' | translate }}
         </a>
       </div>
     </section>
@@ -41,7 +40,7 @@
     role="scrollbar"
     aria-controls="deck"
     aria-orientation="horizontal"
-    aria-label="Horizontal project gallery scrollbar"
+    [attr.aria-label]="'home.scrollbar_label' | translate"
     [attr.aria-valuenow]="thumbLeft()"
     aria-valuemin="0"
     [attr.aria-valuemax]="100 - thumbWidth()"

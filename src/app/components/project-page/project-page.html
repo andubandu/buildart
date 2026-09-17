@@ -1,36 +1,34 @@
 <div class="page">
   @if (project(); as p) {
     <a class="back" routerLink="/">
-      <span aria-hidden="true">←</span> All projects
+      <span aria-hidden="true">←</span> {{ 'project.all_projects' | translate }}
     </a>
-
     <header class="head">
       <span class="head__status" [attr.data-status]="p.status">{{ statusLabel() }}</span>
       <h1 class="head__name">{{ p.name }}</h1>
-      @if (p.subtitle) {
-        <p class="head__subtitle">{{ p.subtitle }}</p>
+      @if (subtitle) {
+        <p class="head__subtitle">{{ subtitle }}</p>
       }
       <dl class="facts">
         <div class="facts__item">
-          <dt>Location</dt>
+          <dt>{{ 'project.location' | translate }}</dt>
           <dd>{{ p.location }}</dd>
         </div>
         @if (p.apartments) {
           <div class="facts__item">
-            <dt>Apartments</dt>
+            <dt>{{ 'project.apartments' | translate }}</dt>
             <dd>{{ p.apartments }}</dd>
           </div>
         }
         @if (p.year) {
           <div class="facts__item">
-            <dt>Completion</dt>
+            <dt>{{ 'project.completion' | translate }}</dt>
             <dd>{{ p.year }}</dd>
           </div>
         }
       </dl>
     </header>
-
-    <section class="gallery" aria-label="Architectural gallery and floor plans">
+    <section class="gallery" [attr.aria-label]="'project.gallery_label' | translate">
       @for (item of galleryItems(); track item.src; let i = $index) {
         <figure
           class="gallery__item"
@@ -52,25 +50,23 @@
               <div class="gallery__blueprint-grid" aria-hidden="true"></div>
             }
           </div>
-
           <figcaption class="gallery__overlay">
             <div class="gallery__overlay-header">
               <span class="gallery__badge">{{ item.badge }}</span>
               @if (item.area) {
                 <span class="gallery__area">
                   <span class="gallery__area-val">{{ item.area }}</span>
-                  <span class="gallery__area-unit">მ²</span>
+                  <span class="gallery__area-unit">{{ 'project.apartments_unit' | translate }}</span>
                 </span>
               } @else if (item.tag) {
                 <span class="gallery__tag">{{ item.tag }}</span>
               }
             </div>
-
             <div class="gallery__overlay-body">
               <h3 class="gallery__item-title">{{ item.title }}</h3>
               <div class="gallery__spec-hint">
                 <span class="gallery__spec-hint-text">
-                  {{ item.type.startsWith('floor-plan') ? 'გეგმის დათვალიერება' : '' }}
+                  {{ item.type.startsWith('floor-plan') ? ('project.gallery.view_plan' | translate) : '' }}
                 </span>
                 <svg class="gallery__spec-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 16.25v-4.5m0 4.5h4.5m-4.5 0L9 11M16.25 3.75h-4.5m4.5 0v4.5m0-4.5L11 9m5.25 7.25h-4.5m4.5 0v-4.5m0 4.5L11 11" />
@@ -83,15 +79,14 @@
     </section>
   } @else if (loaded()) {
     <div class="empty">
-      <h1>Project not found</h1>
-      <a class="back" routerLink="/"><span aria-hidden="true">←</span> Back to projects</a>
+      <h1>{{ 'project.not_found' | translate }}</h1>
+      <a class="back" routerLink="/"><span aria-hidden="true">←</span> {{ 'project.back_to_projects' | translate }}</a>
     </div>
   }
-
   @if (selectedImage()) {
     <div class="image-modal" (click)="closeImage()" role="dialog" aria-modal="true">
-      <button class="modal__close" (click)="closeImage()" aria-label="Close modal">×</button>
-      <img [src]="selectedImage()" alt="Project image full size" />
+      <button class="modal__close" (click)="closeImage()" [attr.aria-label]="'project.close_modal' | translate">×</button>
+      <img [src]="selectedImage()" [alt]="'project.image_alt' | translate" />
     </div>
   }
 </div>

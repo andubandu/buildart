@@ -5,6 +5,8 @@ import { map } from 'rxjs';
 
 import { ProjectsService } from '../../services/projects.service';
 import { Project, STATUS_LABEL } from '../../models/project';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { TranslationService } from '../../services/translation.service';
 
 export interface GalleryItem {
   src: string;
@@ -17,89 +19,16 @@ export interface GalleryItem {
   tag?: string;
 }
 
-function parseGalleryItem(src: string, index: number, projectName: string): GalleryItem {
-  const filename = decodeURIComponent(src.split('/').pop() ?? '');
-  const isHero = index === 0;
-
-  if (isHero) {
-    return {
-      src,
-      isHero: true,
-      type: 'hero',
-      badge: 'რენდერი',
-      title: 'მთავარი რენდერი',
-      alt: `${projectName} — Exterior facade render`,
-      tag: 'HERO',
-    };
-  }
-
-  // Extract area number 
-  const areaMatch = filename.match(/(\d+[.,]\d+)/);
-  const area = areaMatch ? areaMatch[1].replace(',', '.') : undefined;
-
-  const upper = filename.toUpperCase();
-  const lower = filename.toLowerCase();
-  const isTransparent = upper.includes('TRANSPARENT');
-  const isGif = lower.endsWith('.gif');
-  const isPng = lower.endsWith('.png');
-  const isPlanWord = filename.includes('ბინა') || lower.includes('plan');
-
-  if (isTransparent || (isPng && area)) {
-    return {
-      src,
-      isHero: false,
-      type: 'floor-plan-3d',
-      badge: '3D გეგმარება',
-      title: area ? `ბინა ${area} მ²` : `3D გეგმარება #${index}`,
-      area,
-      alt: `${projectName} — 3D floor plan layout${area ? ' ' + area + ' m²' : ''}`,
-      tag: '3D MODEL',
-    };
-  }
-
-  if (area || isPlanWord || isGif) {
-    return {
-      src,
-      isHero: false,
-      type: 'floor-plan-2d',
-      badge: 'ბინის გეგმა',
-      title: area ? `ბინა ${area} მ²` : `არქიტექტურული გეგმა #${index}`,
-      area,
-      alt: `${projectName} — Architectural floor plan${area ? ' ' + area + ' m²' : ''}`,
-      tag: 'BLUEPRINT',
-    };
-  }
-
-  let title = `დეტალი #${index}`;
-  let badge = 'არქიტექტურა';
-  if (filename.includes('night')) {
-    title = 'ღამის რენდერი';
-    badge = 'რენდერი';
-  } else if (filename.includes('morning')) {
-    title = 'Morning Render';
-    badge = 'რენდერი';
-  }
-
-  return {
-    src,
-    isHero: false,
-    type: 'render',
-    badge,
-    title,
-    alt: `${projectName} — Architectural detail ${index}`,
-    tag: 'PHOTO',
-  };
-}
-
 @Component({
   selector: 'app-project-page',
-  imports: [RouterLink],
+  imports: [RouterLink, TranslatePipe],
   templateUrl: './project-page.html',
   styleUrl: './project-page.scss',
 })
 export class ProjectPage {
   private readonly route = inject(ActivatedRoute);
   private readonly projectsService = inject(ProjectsService);
+  private readonly translationService = inject(TranslationService);
 
   private readonly projects = toSignal(this.projectsService.getProjects(), {
     initialValue: [] as Project[],
@@ -113,6 +42,16 @@ export class ProjectPage {
   protected readonly project = computed(() =>
     this.projects().find((p) => p.id === this.id()),
   );
+
+  protected get subtitle() {
+    const p = this.project();
+    if (!p) return undefined;
+    const lang = this.translationService.currentLanguage();
+    if (lang === 'EN') {
+      return p.subtitle_en || p.subtitle;
+    }
+    return p.subtitle;
+  }
 
   /** Hero main image first, followed by all additional folder images / floor plans */
   protected readonly images = computed<string[]>(() => {
@@ -129,8 +68,81 @@ export class ProjectPage {
     if (!p) return [];
 
     const raw = this.images();
-    return raw.map((src, idx) => parseGalleryItem(src, idx, p.name));
+    return raw.map((src, idx) => this.parseGalleryItem(src, idx, p.name));
   });
+
+  private parseGalleryItem(src: string, index: number, projectName: string): GalleryItem {
+    const filename = decodeURIComponent(src.split('/').pop() ?? '');
+    const isHero = index === 0;
+
+    if (isHero) {
+      return {
+        src,
+        isHero: true,
+        type: 'hero',
+        badge: this.translationService.translate('project.gallery.render_badge'),
+        title: this.translationService.translate('project.gallery.render_title'),
+        alt: `${projectName} — ${this.translationService.translate('project.facade_render')}`,
+        tag: 'HERO',
+      };
+    }
+
+    const areaMatch = filename.match(/(\d+[.,]\d+)/);
+    const area = areaMatch ? areaMatch[1].replace(',', '.') : undefined;
+
+    const upper = filename.toUpperCase();
+    const lower = filename.toLowerCase();
+    const isTransparent = upper.includes('TRANSPARENT');
+    const isGif = lower.endsWith('.gif');
+    const isPng = lower.endsWith('.png');
+    const isPlanWord = filename.includes('ბინა') || lower.includes('plan');
+
+    if (isTransparent || (isPng && area)) {
+      return {
+        src,
+        isHero: false,
+        type: 'floor-plan-3d',
+        badge: this.translationService.translate('project.gallery.plan3d_badge'),
+        title: area ? this.translationService.translate('project.gallery.plan3d_title').replace('{area}', area) : this.translationService.translate('project.gallery.plan3d_badge'),
+        area,
+        alt: `${projectName} — ${this.translationService.translate('project.gallery.plan3d_alt').replace('{area}', area || '')}`,
+        tag: '3D MODEL',
+      };
+    }
+
+    if (area || isPlanWord || isGif) {
+      return {
+        src,
+        isHero: false,
+        type: 'floor-plan-2d',
+        badge: this.translationService.translate('project.gallery.plan2d_badge'),
+        title: area ? this.translationService.translate('project.gallery.plan2d_title').replace('{area}', area) : this.translationService.translate('project.gallery.plan2d_generic_title'),
+        area,
+        alt: `${projectName} — ${this.translationService.translate('project.gallery.plan2d_alt').replace('{area}', area || '')}`,
+        tag: 'BLUEPRINT',
+      };
+    }
+
+    let title = this.translationService.translate('project.gallery.detail_title');
+    let badge = this.translationService.translate('project.gallery.detail_badge');
+    if (filename.includes('night')) {
+      title = this.translationService.translate('project.gallery.night_render');
+      badge = this.translationService.translate('project.gallery.render_badge');
+    } else if (filename.includes('morning')) {
+      title = this.translationService.translate('project.gallery.morning_render');
+      badge = this.translationService.translate('project.gallery.render_badge');
+    }
+
+    return {
+      src,
+      isHero: false,
+      type: 'render',
+      badge,
+      title,
+      alt: `${projectName} — ${this.translationService.translate('project.detail_render')} ${index}`,
+      tag: 'PHOTO',
+    };
+  }
 
   protected readonly statusLabel = computed(() => {
     const p = this.project();
