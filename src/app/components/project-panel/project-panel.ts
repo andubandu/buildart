@@ -29,4 +29,13 @@ export class ProjectPanel {
     }
     return p.subtitle;
   }
+
+  protected get location() {
+    const p = this.project();
+    const lang = this.translationService.currentLanguage();
+    if (lang === 'EN') {
+      return p.location_en || p.location;
+    }
+    return p.location;
+  }
 }

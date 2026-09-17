@@ -4,6 +4,7 @@ export interface Project {
   subtitle?: string;
   subtitle_en?: string;
   location: string;
+  location_en?: string;
   status: 'completed' | 'in_progress' | 'planned';
   year?: number;
   apartments?: number;

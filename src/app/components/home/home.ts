@@ -35,6 +35,14 @@ export class HomePage {
     return project.subtitle;
   }
 
+  protected getProjectLocation(project: Project): string {
+    const lang = this.translationService.currentLanguage();
+    if (lang === 'EN') {
+      return project.location_en || project.location;
+    }
+    return project.location;
+  }
+
   private readonly deck = viewChild.required<ElementRef<HTMLElement>>('deck');
   private readonly scrollbar = viewChild.required<ElementRef<HTMLElement>>('scrollbar');
 

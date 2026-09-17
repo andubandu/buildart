@@ -53,6 +53,16 @@ export class ProjectPage {
     return p.subtitle;
   }
 
+  protected get location() {
+    const p = this.project();
+    if (!p) return undefined;
+    const lang = this.translationService.currentLanguage();
+    if (lang === 'EN') {
+      return p.location_en || p.location;
+    }
+    return p.location;
+  }
+
   /** Hero main image first, followed by all additional folder images / floor plans */
   protected readonly images = computed<string[]>(() => {
     const p = this.project();

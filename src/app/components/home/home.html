@@ -15,7 +15,7 @@
       <a
         class="panel-link"
         [routerLink]="['/project', project.id]"
-        [attr.aria-label]="project.name + (getProjectSubtitle(project) ? ' — ' + getProjectSubtitle(project) : '')"
+        [attr.aria-label]="project.name + ' - ' + getProjectLocation(project) + (getProjectSubtitle(project) ? ' — ' + getProjectSubtitle(project) : '')"
       >
         <app-project-panel [id]="'panel-' + project.id" [project]="project" [index]="i + 1" />
       </a>
